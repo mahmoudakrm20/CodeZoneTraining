@@ -1,7 +1,26 @@
 ﻿@page "/PatientForm"
 
 <h3>Patient Registration</h3>
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <!-- Name Arabic -->
+    <Field Label="Name (Arabic)">
+        <InputText class="form-control" @bind-Value="Model.NameArabic" />
+    </Field>
+    <!-- Name English -->
+    <Field Label="Name (English)">
+        <InputText class="form-control" @bind-Value="Model.NameEnglish" />
+    </Field>
+    <!-- Email -->
+    <Field Label="Email">
+        <InputText class="form-control" @bind-Value="Model.Email" />
+    </Field>
 
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</EditForm>
 @code {
-
+    private PatientModel Model = new();
+    private void HandleSubmit()
+    {
+        Console.WriteLine($"Submitted Name: {Model.NameArabic}");
+    }
 }

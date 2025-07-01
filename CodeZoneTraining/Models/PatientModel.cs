@@ -8,6 +8,4 @@ namespace CodeZoneTraining.Models
         public string? NameEnglish { get; set; }
         public string? Email { get; set; }
     }
-
-
 }
