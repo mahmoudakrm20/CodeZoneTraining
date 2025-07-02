@@ -3,17 +3,36 @@
 <h3>Patient Registration</h3>
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <!-- Name Arabic -->
-    <Field Label="Name (Arabic)">
-        <InputText class="form-control" @bind-Value="Model.NameArabic" />
-    </Field>
+    <CZField Label="Name (Arabic)">
+        <InputText class="form-control" @bind-Value="Model.NameAr" />
+    </CZField>
     <!-- Name English -->
-    <Field Label="Name (English)">
-        <InputText class="form-control" @bind-Value="Model.NameEnglish" />
-    </Field>
+    <CZField Label="Name (English)">
+        <InputText class="form-control" @bind-Value="Model.NameEn" />
+    </CZField>
     <!-- Email -->
-    <Field Label="Email">
+    <CZField Label="Email">
         <InputText class="form-control" @bind-Value="Model.Email" />
-    </Field>
+    </CZField>
+    <!-- Gender -->
+    <!-- Military Status -->
+    <!-- Phone -->
+    <CZField Label="Phone">
+    <InputText @bind-Value="Model.Phone" class="form-control" />
+    </CZField>
+    <!-- National Id -->
+    <CZField Label="National ID">
+    <InputText @bind-Value="Model.NationalId" class="form-control" />
+    </CZField>
+    <!-- DOB (Date) -->
+    <CZField Label="Date of Birth">
+    <InputDate @bind-Value="Model.DateOfBirth" class="form-control"/>
+    </CZField>
+    <!-- DOB (Y/M/D) -->
+    <!-- Age (Y/M/D) -->
+    <!-- Photo -->
+    <!-- Attach File -->
+
 
     <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </EditForm>
@@ -21,6 +40,6 @@
     private PatientModel Model = new();
     private void HandleSubmit()
     {
-        Console.WriteLine($"Submitted Name: {Model.NameArabic}");
+        Console.WriteLine($"Submitted Name: {Model.NameAr}");
     }
 }
