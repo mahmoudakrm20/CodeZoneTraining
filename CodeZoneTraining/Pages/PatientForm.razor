@@ -26,10 +26,17 @@
     </CZField>
     <!-- DOB (Date) -->
     <CZField Label="Date of Birth">
-    <InputDate @bind-Value="Model.DateOfBirth" class="form-control"/>
+        <InputDate @bind-Value="Model.DateOfBirth" @oninput="UpdateAge" class="form-control" />
     </CZField>
     <!-- DOB (Y/M/D) -->
+    <CZAgeViewer Years="@Years"
+                 Months="@Months"
+                 Days="@Days"
+                 OnAgeChanged="UpdateDateFromAge" />
     <!-- Age (Y/M/D) -->
+    <CZField Label="Age">
+        <input type="text" class="form-control" value="@CalculatedAge" disabled />
+    </CZField>
     <!-- Photo -->
     <!-- Attach File -->
 
@@ -37,9 +44,78 @@
     <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </EditForm>
 @code {
+    private string? CalculatedAge;
+    DateOnly today = DateOnly.FromDateTime(DateTimeOffset.Now.Date);
+
+    private void UpdateAge(ChangeEventArgs e)
+    {
+        var inputValue = e.Value?.ToString();
+        Console.WriteLine("oninput value: " + inputValue);
+
+        if (DateOnly.TryParse(inputValue, out var dob))
+        {
+            Model.DateOfBirth = dob;
+            CalculatedAge = CalculateAge(dob, today);
+        }
+        else
+        {
+            CalculatedAge = "Invalid Date Inserted";
+        }
+    }
+
+    private string CalculateAge(DateOnly birth, DateOnly today)
+    {
+        int years = today.Year - birth.Year;
+        int months = today.Month - birth.Month;
+        int days = today.Day - birth.Day;
+
+        if (days < 0)
+        {
+            months--;
+            int previousMonth = today.Month == 1 ? 12 : today.Month - 1;
+            int year = today.Month == 1 ? today.Year - 1 : today.Year;
+            days += DateTime.DaysInMonth(year, previousMonth);
+        }
+
+        if (months < 0)
+        {
+            years--;
+            months += 12;
+        }
+
+        return $"{years} Years، {months} Months، {days} Days";
+    }
+
+    private int Years;
+    private int Months;
+    private int Days;
+
+    private void UpdateDateFromAge((int Years, int Months, int Days) age)
+    {
+        Years = age.Years;
+        Months = age.Months;
+        Days = age.Days;
+
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        var dob = today
+            .AddYears(-Years)
+            .AddMonths(-Months)
+            .AddDays(-Days);
+
+        var recalculatedAge = CalculateAge(dob, today);
+
+        Model.DateOfBirth = dob;
+        CalculatedAge = recalculatedAge;
+    }
+
+
+
     private PatientModel Model = new();
+
     private void HandleSubmit()
     {
         Console.WriteLine($"Submitted Name: {Model.NameAr}");
     }
+
 }

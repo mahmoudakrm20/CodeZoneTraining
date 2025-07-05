@@ -9,7 +9,7 @@ namespace CodeZoneTraining.Models
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? NationalId { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
         public int AgeYears { get; set; }
         public int AgeMonths { get; set; }
         public int AgeDays { get; set; }

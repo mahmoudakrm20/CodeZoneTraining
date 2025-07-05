@@ -1,5 +1,38 @@
-﻿<h3>CZAgeView</h3>
+﻿<div class="row">
+    <div class="col-md-4">
+        <label class="form-label">Years</label>
+        <InputNumber class="form-control"
+                     @bind-Value="Years"
+                     @oninput="OnChanged" 
+                     min="0" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Months</label>
+        <InputNumber class="form-control"
+                     @bind-Value="Months"
+                     @oninput="OnChanged"
+                     min="0" 
+                     max="11" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Days</label>
+        <InputNumber class="form-control"
+                     @bind-Value="Days"
+                     @oninput="OnChanged" 
+                     min="0"
+                     max="30"/>
+    </div>
+</div>
 
 @code {
+    [Parameter] public int Years { get; set; }
+    [Parameter] public int Months { get; set; }
+    [Parameter] public int Days { get; set; }
 
+    [Parameter] public EventCallback<(int Years, int Months, int Days)> OnAgeChanged { get; set; }
+
+    private async Task OnChanged(ChangeEventArgs e)
+    {
+        await OnAgeChanged.InvokeAsync((Years, Months, Days));
+    }
 }
