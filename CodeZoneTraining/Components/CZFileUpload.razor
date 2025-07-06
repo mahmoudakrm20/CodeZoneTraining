@@ -1,0 +1,25 @@
+﻿<div class="mb-3">
+    <InputFile OnChange="HandleFileChange" />
+
+    @if (!string.IsNullOrEmpty(FileName))
+    {
+        <div class="mt-2 text-muted">
+            📎 @FileName
+        </div>
+    }
+</div>
+
+@code {
+    private string? FileName;
+
+    [Parameter]
+    public EventCallback<IBrowserFile> OnFileSelected { get; set; }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        FileName = file.Name;
+
+        await OnFileSelected.InvokeAsync(file);
+    }
+}

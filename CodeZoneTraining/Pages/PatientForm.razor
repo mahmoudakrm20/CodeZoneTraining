@@ -29,12 +29,10 @@
         <InputDate id="DOB" @bind-Value="Model.DateOfBirth" @oninput="UpdateAge" class="form-control" />
     </CZField>
     <!-- DOB (Y/M/D) -->
-    
     <CZAgeViewer Years="@Years"
                  Months="@Months"
                  Days="@Days"
                  OnAgeChanged="UpdateDateFromAge" />
-   
     <!-- Age (Y/M/D) -->
     <CZField for="Age" Label="Age">
         <input id="Age" type="text" class="form-control" value="@CalculatedAge" disabled />
@@ -45,10 +43,11 @@
                  OnReset="HandleImageReset"
                  Removable="true" />
     </CZField>
-
     <!-- Attach File -->
-
-
+    <CZField Label="Attachment File">
+    <CZFileUpload OnFileSelected="HandleFileUpload" />
+    </CZField>
+    <!-- Submit -->
     <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </EditForm>
 @code {
@@ -125,12 +124,16 @@
         Model.ProfileImage = null;
     }
 
+    private void HandleFileUpload(IBrowserFile file)
+    {
+        Model.Attachment = file;
+    }
 
     private PatientModel Model = new();
 
     private void HandleSubmit()
     {
-        Console.WriteLine($"Submitted Name: {Model.NameAr}");
+        Console.WriteLine($"Submitted Name: {Model}");
     }
 
 }
