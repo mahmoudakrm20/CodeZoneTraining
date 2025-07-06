@@ -1,5 +1,5 @@
 ﻿<div class="mb-3">
-    <label class="form-label">@Label</label>
+    <label class="form-label @LabelClass" @attributes="LabelAttributes">@Label</label>
     @ChildContent
 </div>
 
@@ -8,4 +8,8 @@
     public string? Label { get; set; }
     [Parameter] 
     public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public string? LabelClass { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? LabelAttributes { get; set; }
 }

@@ -3,39 +3,41 @@
 <h3>Patient Registration</h3>
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <!-- Name Arabic -->
-    <CZField Label="Name (Arabic)">
-        <InputText class="form-control" @bind-Value="Model.NameAr" />
+    <CZField  for="NameAr" Label="Name (Arabic)">
+        <InputText id="NameAr" class="form-control" @bind-Value="Model.NameAr" />
     </CZField>
     <!-- Name English -->
-    <CZField Label="Name (English)">
-        <InputText class="form-control" @bind-Value="Model.NameEn" />
+    <CZField for="NameEn" Label="Name (English)">
+        <InputText id="NameEn" class="form-control" @bind-Value="Model.NameEn" />
     </CZField>
     <!-- Email -->
-    <CZField Label="Email">
-        <InputText class="form-control" @bind-Value="Model.Email" />
+    <CZField for="Email" Label="Email">
+        <InputText id="Email" class="form-control" @bind-Value="Model.Email" />
     </CZField>
     <!-- Gender -->
     <!-- Military Status -->
     <!-- Phone -->
-    <CZField Label="Phone">
-    <InputText @bind-Value="Model.Phone" class="form-control" />
+    <CZField for="Phone" Label="Phone">
+    <InputText id="Phone" @bind-Value="Model.Phone" class="form-control" />
     </CZField>
     <!-- National Id -->
-    <CZField Label="National ID">
-    <InputText @bind-Value="Model.NationalId" class="form-control" />
+    <CZField for="National ID" Label="National ID">
+        <InputText id="National ID" @bind-Value="Model.NationalId" class="form-control" />
     </CZField>
     <!-- DOB (Date) -->
-    <CZField Label="Date of Birth">
-        <InputDate @bind-Value="Model.DateOfBirth" @oninput="UpdateAge" class="form-control" />
+    <CZField for="DOB" Label="Date of Birth">
+        <InputDate id="DOB" @bind-Value="Model.DateOfBirth" @oninput="UpdateAge" class="form-control" />
     </CZField>
     <!-- DOB (Y/M/D) -->
+    
     <CZAgeViewer Years="@Years"
                  Months="@Months"
                  Days="@Days"
                  OnAgeChanged="UpdateDateFromAge" />
+   
     <!-- Age (Y/M/D) -->
-    <CZField Label="Age">
-        <input type="text" class="form-control" value="@CalculatedAge" disabled />
+    <CZField for="Age" Label="Age">
+        <input id="Age" type="text" class="form-control" value="@CalculatedAge" disabled />
     </CZField>
     <!-- Photo -->
     <!-- Attach File -->
