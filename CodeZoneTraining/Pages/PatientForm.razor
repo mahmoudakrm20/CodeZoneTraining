@@ -40,6 +40,12 @@
         <input id="Age" type="text" class="form-control" value="@CalculatedAge" disabled />
     </CZField>
     <!-- Photo -->
+    <CZField Label="Profile Image">
+        <CZImage OnImageSelected="HandleImageSelected"
+                 OnReset="HandleImageReset"
+                 Removable="true" />
+    </CZField>
+
     <!-- Attach File -->
 
 
@@ -98,8 +104,6 @@
         Months = age.Months;
         Days = age.Days;
 
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
         var dob = today
             .AddYears(-Years)
             .AddMonths(-Months)
@@ -111,6 +115,15 @@
         CalculatedAge = recalculatedAge;
     }
 
+    private void HandleImageSelected(IBrowserFile file)
+    {
+        Model.ProfileImage = file;
+    }
+
+    private void HandleImageReset()
+    {
+        Model.ProfileImage = null;
+    }
 
 
     private PatientModel Model = new();

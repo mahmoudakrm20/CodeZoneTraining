@@ -1,0 +1,45 @@
+﻿<div class="mb-3">
+    <InputFile OnChange="HandleFileChange" accept="image/*" />
+
+    @if (!string.IsNullOrEmpty(ImageDataUrl))
+    {
+        <div class="mt-2">
+            <img src="@ImageDataUrl" class="img-thumbnail" style="max-width: 200px;" />
+
+            @if (Removable)
+            {
+                <button class="btn btn-sm btn-outline-danger mt-2" @onclick="ResetImage">Remove Image</button>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private string? ImageDataUrl;
+
+    [Parameter]
+    public EventCallback<IBrowserFile> OnImageSelected { get; set; }
+
+    [Parameter]
+    public EventCallback OnReset { get; set; }
+
+    [Parameter]
+    public bool Removable { get; set; } = false;
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        ImageDataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+
+        await OnImageSelected.InvokeAsync(file);
+    }
+
+    private async Task ResetImage()
+    {
+        ImageDataUrl = null;
+        await OnReset.InvokeAsync();
+    }
+}

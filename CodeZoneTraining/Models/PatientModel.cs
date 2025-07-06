@@ -10,8 +10,7 @@ namespace CodeZoneTraining.Models
         public string? Phone { get; set; }
         public string? NationalId { get; set; }
         public DateOnly? DateOfBirth { get; set; }
-        public int AgeYears { get; set; }
-        public int AgeMonths { get; set; }
-        public int AgeDays { get; set; }
+        public IBrowserFile? ProfileImage { get; set; }
+
     }
 }
