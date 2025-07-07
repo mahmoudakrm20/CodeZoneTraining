@@ -15,7 +15,14 @@
         <InputText id="Email" class="form-control" @bind-Value="Model.Email" />
     </CZField>
     <!-- Gender -->
+    <CZField Label="Gender">
+        <CZRadios Options="@GenderOptions" @bind-Value="Model.Gender" />
+    </CZField>
     <!-- Military Status -->
+    <CZField Label="Militray Status">
+        <CZRadios Options="@MilitaryOptions"
+                 @bind-Value="Model.MilitaryStatus" />
+    </CZField>
     <!-- Phone -->
     <CZField for="Phone" Label="Phone">
     <InputText id="Phone" @bind-Value="Model.Phone" class="form-control" />
@@ -51,6 +58,7 @@
     <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </EditForm>
 @code {
+    // DOB
     private string? CalculatedAge;
     DateOnly today = DateOnly.FromDateTime(DateTimeOffset.Now.Date);
 
@@ -113,7 +121,7 @@
         Model.DateOfBirth = dob;
         CalculatedAge = recalculatedAge;
     }
-
+    // Image Upload
     private void HandleImageSelected(IBrowserFile file)
     {
         Model.ProfileImage = file;
@@ -123,17 +131,28 @@
     {
         Model.ProfileImage = null;
     }
-
+    // File Upload
     private void HandleFileUpload(IBrowserFile file)
     {
         Model.Attachment = file;
     }
-
+    // Gender Radios
+    private Dictionary<string, string> GenderOptions = new()
+    {
+        {"M" , "Male"},
+        {"F","Female"}
+    };
+    // Military Radios
+    private Dictionary<string, string> MilitaryOptions = new()
+{
+    { "Exempted", "Exempted" },
+    { "Completed", "Completed" },
+    { "Postponed", "Postponed" }
+};
     private PatientModel Model = new();
 
     private void HandleSubmit()
     {
         Console.WriteLine($"Submitted Name: {Model}");
     }
-
 }

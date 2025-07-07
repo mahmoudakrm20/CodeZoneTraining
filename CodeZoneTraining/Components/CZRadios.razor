@@ -1,0 +1,33 @@
+﻿@if(Options != null)
+{
+    @foreach(var option in Options)
+    {
+        <div>
+
+        <div class="form-check form-check-inline">
+            <input type="radio"
+                   class="form-check-input"
+                   name="@GroupName"
+                   value="@option.Key"
+                   checked="@(Value == option.Key)"
+                   @onchange="() => OnValueChanged(option.Key)" />
+
+            <label class="form-check-label">@option.Value</label>
+        </div>
+        </div>
+    }
+}
+@code {
+    [Parameter]
+    public IEnumerable<KeyValuePair<string,string>>? Options { get; set; }
+    [Parameter]
+    public string? Value { get; set; }  
+    [Parameter] 
+    public EventCallback<string> ValueChanged { get; set; }
+    private string GroupName = $"radio-{Guid.NewGuid()}";
+
+    private async Task OnValueChanged(string newValue)
+    {
+        await ValueChanged.InvokeAsync(newValue);
+    }
+}

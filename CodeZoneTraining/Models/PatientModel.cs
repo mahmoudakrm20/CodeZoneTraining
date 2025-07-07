@@ -12,6 +12,8 @@ namespace CodeZoneTraining.Models
         public DateOnly? DateOfBirth { get; set; }
         public IBrowserFile? ProfileImage { get; set; }
         public IBrowserFile? Attachment { get; set; }
+        public string? Gender { get; set; }
+        public string? MilitaryStatus { get; set; }
 
     }
 }
