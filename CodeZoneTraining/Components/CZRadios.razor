@@ -1,22 +1,26 @@
-﻿@if(Options != null)
+﻿@if (Options != null)
 {
-    @foreach(var option in Options)
+    @foreach (var option in Options)
     {
+        var id = $"{GroupName}-{option.Key}";
         <div>
-
         <div class="form-check form-check-inline">
             <input type="radio"
+                   id="@id"
                    class="form-check-input"
                    name="@GroupName"
                    value="@option.Key"
                    checked="@(Value == option.Key)"
                    @onchange="() => OnValueChanged(option.Key)" />
 
-            <label class="form-check-label">@option.Value</label>
+            <label class="form-check-label" for="@id">
+                @option.Value
+            </label>
         </div>
         </div>
     }
 }
+
 @code {
     [Parameter]
     public IEnumerable<KeyValuePair<string,string>>? Options { get; set; }

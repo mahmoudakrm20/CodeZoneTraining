@@ -1,0 +1,29 @@
+﻿@page "/PatientResult"
+@inject PatientState PatientState
+
+@if (PatientState.SubmittedPatient is not null)
+{
+    <h4>Patient Data</h4>
+    <ul class="list-group">
+        <li class="list-group-item">Name (Ar): @PatientState.SubmittedPatient.NameAr</li>
+        <li class="list-group-item">Name (En): @PatientState.SubmittedPatient.NameEn</li>
+        <li class="list-group-item">Email: @PatientState.SubmittedPatient.Email</li>
+        <li class="list-group-item">Phone: @PatientState.SubmittedPatient.Phone</li>
+        <li class="list-group-item">National ID: @PatientState.SubmittedPatient.NationalId</li>
+        <li class="list-group-item">DOB: @PatientState.SubmittedPatient.DateOfBirth</li>
+        <li class="list-group-item">Gender: @PatientState.SubmittedPatient.Gender</li>
+        <li class="list-group-item">Military Status: @PatientState.SubmittedPatient.MilitaryStatus</li>
+
+        <li class="list-group-item">
+            <strong>Profile Image:</strong><br />
+            @if (!string.IsNullOrEmpty(PatientState.ProfileImageBase64))
+            {
+                <img src="@PatientState.ProfileImageBase64" class="img-thumbnail mt-2" style="max-width: 200px;" />
+            }
+        </li>
+    </ul>
+}
+else
+{
+    <p class="text-danger">No patient data submitted.</p>
+}

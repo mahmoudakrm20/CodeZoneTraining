@@ -1,7 +1,12 @@
-﻿@page "/PatientForm"
+﻿@inject NavigationManager Navigation
+@inject PatientState PatientState
+
+@page "/PatientForm"
 
 <h3>Patient Registration</h3>
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <!-- Name Arabic -->
     <CZField  for="NameAr" Label="Name (Arabic)">
         <InputText id="NameAr" class="form-control" @bind-Value="Model.NameAr" />
@@ -15,11 +20,11 @@
         <InputText id="Email" class="form-control" @bind-Value="Model.Email" />
     </CZField>
     <!-- Gender -->
-    <CZField Label="Gender">
+    <CZField for="Gender" Label="Gender">
         <CZRadios Options="@GenderOptions" @bind-Value="Model.Gender" />
     </CZField>
     <!-- Military Status -->
-    <CZField Label="Militray Status">
+    <CZField for="MilitaryStatus" Label="Militray Status">
         <CZRadios Options="@MilitaryOptions"
                  @bind-Value="Model.MilitaryStatus" />
     </CZField>
@@ -33,7 +38,9 @@
     </CZField>
     <!-- DOB (Date) -->
     <CZField for="DOB" Label="Date of Birth">
-        <InputDate id="DOB" @bind-Value="Model.DateOfBirth" @oninput="UpdateAge" class="form-control" />
+        <InputDate id="DOB" @bind-Value="Model.DateOfBirth" @oninput="UpdateAge" class="form-control"
+        min="1900-01-01"
+        max="@TodayString" />
     </CZField>
     <!-- DOB (Y/M/D) -->
     <CZAgeViewer Years="@Years"
@@ -59,6 +66,7 @@
 </EditForm>
 @code {
     // DOB
+    private string TodayString => DateTime.Today.ToString("yyyy-MM-dd");
     private string? CalculatedAge;
     DateOnly today = DateOnly.FromDateTime(DateTimeOffset.Now.Date);
 
@@ -122,9 +130,15 @@
         CalculatedAge = recalculatedAge;
     }
     // Image Upload
-    private void HandleImageSelected(IBrowserFile file)
+
+    private async Task HandleImageSelected(IBrowserFile file)
     {
         Model.ProfileImage = file;
+        using var stream = file.OpenReadStream();
+        var buffer = new byte[file.Size];
+        await stream.ReadAsync(buffer);
+        ProfileImagePreview = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+    
     }
 
     private void HandleImageReset()
@@ -150,9 +164,15 @@
     { "Postponed", "Postponed" }
 };
     private PatientModel Model = new();
+    private string? ProfileImagePreview;
+
 
     private void HandleSubmit()
     {
-        Console.WriteLine($"Submitted Name: {Model}");
+        PatientState.SubmittedPatient = Model;
+        PatientState.ProfileImageBase64 = ProfileImagePreview;
+
+        Navigation.NavigateTo("/PatientResult");
+        Console.WriteLine($"Submitted: {Model.DateOfBirth}");
     }
 }
